@@ -59,10 +59,18 @@ export class UserInteractor implements IUserInteractor {
     const users = await this.repository.getAllUsers();
     return users;
   }
-  deleteUser(id: string): Promise<string> {
-    throw new Error("Method not implemented.");
+  async deleteUser(id: string): Promise<string> {
+    const result = await this.repository.deleteUser(id);
+    if (result) {
+      return "User deleted";
+    }
+    throw new Error("User not found or delete failed");
   }
-  updateUser(id: string, user: User): Promise<string> {
-    throw new Error("Method not implemented.");
+  async updateUser(id: string, user: User): Promise<string> {
+    const result = await this.repository.updateUser(id, user);
+    if (result) {
+      return "User updated";
+    }
+    throw new Error("User not found or update failed");
   }
 }
