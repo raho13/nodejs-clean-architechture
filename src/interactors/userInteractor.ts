@@ -4,7 +4,6 @@ import { IUserInteractor } from "../interfaces/user/IUserInteractor.js";
 import { IUserRepository } from "../interfaces/user/IUserRepository.ts";
 import { INTERFACE_TYPE } from "../utils/appConsts.ts";
 import { IToken } from "../interfaces/IToken.ts";
-import { hash } from "bcrypt";
 import { IHash } from "../interfaces/IHash.ts";
 @injectable()
 export class UserInteractor implements IUserInteractor {
@@ -37,16 +36,28 @@ export class UserInteractor implements IUserInteractor {
       throw new Error("User does not exists");
     }
   }
-  register(
+  async register(
     name: string,
     phoneNumber: string,
     email: string,
     password: string
   ): Promise<string> {
-    throw new Error("Method not implemented.");
+    const hashedPassword = await this.hash.hashPassword(password);
+
+    const user = await this.repository.register(
+      name,
+      phoneNumber,
+      email,
+      hashedPassword
+    );
+    if (user) {
+      return "User created";
+    }
+    throw new Error("User already exists or create failed");
   }
-  getAllUsers(): Promise<User[]> {
-    throw new Error("Method not implemented.");
+  async getAllUsers(): Promise<User[]> {
+    const users = await this.repository.getAllUsers();
+    return users;
   }
   deleteUser(id: string): Promise<string> {
     throw new Error("Method not implemented.");
