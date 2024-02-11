@@ -2,7 +2,7 @@ import { User } from "../entities/User.js";
 import { IUserRepository } from "../interfaces/user/IUserRepository.js";
 
 export class UserRepository implements IUserRepository{
-    login(email: string, password: string): Promise<User> {
+    login(email: string): Promise<User> {
         throw new Error("Method not implemented.");
     }
     register(name: string, phoneNumber: string, email: string, password: string): Promise<string> {

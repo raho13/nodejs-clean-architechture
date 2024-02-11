@@ -6,6 +6,8 @@ import { UserInteractor } from "../interactors/userInteractor.ts";
 import { IUserRepository } from "../interfaces/user/IUserRepository.ts";
 import { UserRepository } from "../repositories/userRepository.ts";
 import { UserController } from "../controllers/userController.ts";
+import { Token } from "../libs/token.ts";
+import { Hash } from "../libs/hash.ts";
 
 const userRouter = Router();
 
@@ -19,8 +21,8 @@ container
   .to(UserRepository);
 
 container.bind(INTERFACE_TYPE.UserController).to(UserController);
-
+container.bind(INTERFACE_TYPE.Token).to(Token);
+container.bind(INTERFACE_TYPE.Hash).to(Hash);
 const controller = container.get<UserController>(INTERFACE_TYPE.UserController);
-
 
 export default userRouter;

@@ -1,7 +1,7 @@
 import { User } from "../../entities/User.js";
 
 export interface IUserRepository {
-  login(email: string, password: string): Promise<User>;
+  login(email: string ): Promise<User>;
   register(
     name: string,
     phoneNumber: string,
