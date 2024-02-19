@@ -1,22 +1,20 @@
 import { inject, injectable } from "inversify";
-import { IUserInteractor } from "../interfaces/user/IUserInteractor.ts";
 import { INTERFACE_TYPE } from "../utils/appConsts.ts";
 import { Request, Response } from "express";
+import { IUserService } from "../interfaces/user/IUserService.ts";
 
 @injectable()
 export class UserController {
-  private interactor: IUserInteractor;
+  private service: IUserService;
 
-  constructor(
-    @inject(INTERFACE_TYPE.UserInteractor) interactor: IUserInteractor
-  ) {
-    this.interactor = interactor;
+  constructor(@inject(INTERFACE_TYPE.UserService) service: IUserService) {
+    this.service = service;
   }
 
   async onLogin(req: Request, res: Response) {
     const { email, password } = req.body;
     try {
-      const token = await this.interactor.login(email, password);
+      const token = await this.service.login(email, password);
       if (token) {
         return res.status(200).json({ token });
       } else {
@@ -30,7 +28,7 @@ export class UserController {
   async onRegister(req: Request, res: Response) {
     const { name, email, password, phoneNumber } = req.body;
     try {
-      const result = await this.interactor.register(
+      const result = await this.service.register(
         name,
         email,
         password,
@@ -51,7 +49,7 @@ export class UserController {
   }
   async onGetAllUsers(req: Request, res: Response) {
     try {
-      const users = await this.interactor.getAllUsers();
+      const users = await this.service.getAllUsers();
       if (users) res.status(200).json(users);
       else res.status(400).json([]);
     } catch (error) {
@@ -62,7 +60,7 @@ export class UserController {
   async onUpdateUser(req: Request, res: Response) {
     const { id, name, email, phoneNumber, password } = req.body;
     try {
-      const result = await this.interactor.updateUser(id, {
+      const result = await this.service.updateUser(id, {
         name,
         email,
         phoneNumber,
@@ -78,7 +76,7 @@ export class UserController {
   async onDeleteUser(req: Request, res: Response) {
     const { id } = req.body;
     try {
-      const result = await this.interactor.deleteUser(id);
+      const result = await this.service.deleteUser(id);
       if (result) res.status(200).json({ message: "Delete success" });
       else res.status(400).json({ message: "Delete failed" });
     } catch (error) {

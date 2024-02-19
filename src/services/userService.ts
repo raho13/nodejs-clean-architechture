@@ -1,12 +1,12 @@
 import { inject, injectable } from "inversify";
 import { User } from "../entities/User.js";
-import { IUserInteractor } from "../interfaces/user/IUserInteractor.js";
 import { IUserRepository } from "../interfaces/user/IUserRepository.ts";
 import { INTERFACE_TYPE } from "../utils/appConsts.ts";
 import { IToken } from "../interfaces/IToken.ts";
 import { IHash } from "../interfaces/IHash.ts";
+import { IUserService } from "../interfaces/user/IUserService.ts";
 @injectable()
-export class UserInteractor implements IUserInteractor {
+export class UserService implements IUserService {
   private repository: IUserRepository;
   private token: IToken;
   private hash: IHash;

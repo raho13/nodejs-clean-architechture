@@ -1,6 +1,6 @@
 import { User } from "../../entities/User.js";
 
-export interface IUserInteractor {
+export interface IUserService {
   login(email: string, password: string): Promise<string>;
   register(
     name: string,
